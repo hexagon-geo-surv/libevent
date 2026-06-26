@@ -1994,7 +1994,8 @@ evutil_inet_pton_scope(int af, const char *src, void *dst, unsigned *indexp)
 {
 	int r;
 	unsigned if_index;
-	char *check, *cp, *tmp_src;
+	const char *cp;
+	char *check, *tmp_src, *pct;
 
 	*indexp = 0; /* Reasonable default */
 
@@ -2017,8 +2018,8 @@ evutil_inet_pton_scope(int af, const char *src, void *dst, unsigned *indexp)
 	}
 	*indexp = if_index;
 	tmp_src = mm_strdup(src);
-	cp = strchr(tmp_src, '%');
-	*cp = '\0';
+	pct = strchr(tmp_src, '%');
+	*pct = '\0';
 	r = evutil_inet_pton(af, tmp_src, dst);
 	free(tmp_src);
 	return r;
